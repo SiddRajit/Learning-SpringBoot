@@ -1,10 +1,10 @@
-package com.FamilyCashCardApp.spring_rest_api;
+package com.productAPI.demo_API;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CashCardApplicationTests {
+class ProductAPIApplicationTests {
 
 	@Test
 	void contextLoads() {

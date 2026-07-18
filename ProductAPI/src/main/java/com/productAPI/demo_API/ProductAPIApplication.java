@@ -1,13 +1,13 @@
-package com.FamilyCashCardApp.spring_rest_api;
+package com.productAPI.demo_API;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CashCardApplication {
+public class ProductAPIApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CashCardApplication.class, args);
+		SpringApplication.run(ProductAPIApplication.class, args);
 	}
 
 }
