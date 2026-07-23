@@ -26,26 +26,34 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers());
     }
 
+    @GetMapping("/paginated")
+    public ResponseEntity<List<UserDto>> getAllUsersPaginated(@RequestParam int page,
+                                                              @RequestParam int pageSize,
+                                                              @RequestParam(defaultValue = "asc") String direction,
+                                                              @RequestParam(defaultValue = "name") String sortBy) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsersPaginated(page, pageSize, direction, sortBy));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getUserById(id));
     }
 
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<UserDto> patchUser(@PathVariable Long id, @RequestBody CreateUserDto user) {
-//        return ResponseEntity.status(HttpStatus.OK).body(userService.patchUser(id, user));
-//    }
+    @PatchMapping("/{id}")
+    public ResponseEntity<UserDto> patchUser(@PathVariable Long id, @RequestBody CreateUserDto user) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.patchUser(id, user));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody CreateUserDto user) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, user));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody CreateUserDto user) {
-//        return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(id, user));
-//    }
 
 
 }

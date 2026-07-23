@@ -5,11 +5,15 @@ import com.example.SpringDataJpaDemo.dto.UserDto;
 import com.example.SpringDataJpaDemo.entities.User;
 import com.example.SpringDataJpaDemo.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -44,13 +48,43 @@ public class UserService {
         return new UserDto(user.getId(), user.getName(), user.getEmail());
     }
 
-//    public UserDto patchUser(Long id, CreateUserDto user) {
-//    }
-
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
-//    public UserDto updateUser(Long id, CreateUserDto user) {
-//    }
+    @Transactional
+    public UserDto updateUser(Long id, CreateUserDto user) {
+        User updatedUser = userRepository.findById(id).orElseThrow();
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setName(user.getName());
+
+        return new UserDto(updatedUser.getId(), updatedUser.getName(), updatedUser.getEmail());
+    }
+
+    @Transactional
+    public UserDto patchUser(Long id, CreateUserDto user) {
+        User updatedUser = userRepository.findById(id).orElseThrow();
+
+        if (user.getEmail() != null) {
+            updatedUser.setEmail(user.getEmail());
+        }
+        if (user.getName() != null) {
+            updatedUser.setName(user.getName());
+        }
+
+        return new UserDto(updatedUser.getId(), updatedUser.getName(), updatedUser.getEmail());
+    }
+
+    public List<UserDto> getAllUsersPaginated(int page, int pageSize, String direction, String sortBy) {
+        Sort sort;
+        sort = direction.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() :
+               Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        List<UserDto> userDtoList = new ArrayList<>();
+        userPage.forEach(user -> userDtoList.add(new UserDto(user.getId(), user.getName(), user.getEmail())));
+
+        return userDtoList;
+    }
 }
