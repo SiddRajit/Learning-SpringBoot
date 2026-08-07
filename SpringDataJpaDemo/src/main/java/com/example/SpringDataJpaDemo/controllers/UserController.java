@@ -15,12 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
-        private final UserService userService;
-
-    @PostMapping
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserDto user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(user));
-    }
+    private final UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
